@@ -61,7 +61,10 @@ echo "made config"
 
 # get primery host
 echo 'before finding primary host'
-primary_host=`cat ${VVV_CONFIG} | shyaml get-value sites.\`${SITE_ESCAPED}\`.hosts.0 2> /dev/null`
+primary_host=`cat ${VVV_CONFIG} | shyaml get-value sites.\"${SITE_ESCAPED}\".hosts.0 2> /dev/null`
+echo 'just primary host start'
+echo $primary_host
+echo 'just primary host end'
 echo 'after finding primary host'
 $primary_host = ${primary_host:-$1}
 echo 'after setting primary host'
@@ -80,7 +83,7 @@ echo "got theme"
 cd $(wp theme path)
 echo "at theme path"
 
-mv clayton93-fx-framework* ${VVV_SITE_NAME}
+mv "clayton93-fx-framework"* ${VVV_SITE_NAME}
 echo "renamed theme folder"
 
 wp theme activate ${VVV_SITE_NAME} --quiet --allow-root
