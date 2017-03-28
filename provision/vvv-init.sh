@@ -45,7 +45,8 @@ read -e wpemail
 wp core download --path="${VVV_PATH_TO_SITE}" --quiet --allow-root
 echo "downloaded core"
 
-wp core config --dbname="${VVV_SITE_NAME}" --dbuser=wp --dbpass=wp --dbprefix="$dbprefix" --quiet --allow-root --extra-php <<PHP
+# wp core config --dbname="${VVV_SITE_NAME}" --dbuser=wp --dbpass=wp --dbprefix="$dbprefix" --quiet --allow-root --extra-php <<PHP
+wp core config --dbname="${VVV_SITE_NAME}" --dbuser=wp --dbpass=wp --dbprefix=wp --quiet --allow-root --extra-php <<PHP
 define( 'WP_DEBUG', true );
 define( 'DISALLOW_FILE_EDIT', true );
 PHP
@@ -53,12 +54,36 @@ echo "made config"
 
 
 # generate password
-password=$(date | md5 -r)
+# password=$(date | md5 -r)
 # copy password to clipboard
-echo $password | pbcopy
+# echo $password | pbcopy
 
 
-wp core install --url="${VVV_SITE_NAME}.dev" --quiet --title="$sitename" --admin_name="$wpuser" --admin_email="$wpemail" --admin_password="$password" --quiet --allow-root
+# get primery host
+primary_host=`cat ${VVV_CONFIG} | shyaml get-value sites.${SITE_ESCAPED}.hosts.0 2> /dev/null`
+$primary_host = ${primary_host:-$1}
+echo "================================================================="
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+echo 'the primary host is:'
+echo $primary_host
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+echo "================================================================="
+
+
+# wp core install --url="${VVV_SITE_NAME}.dev" --quiet --title="$sitename" --admin_name="$wpuser" --admin_email="$wpemail" --admin_password="$password" --quiet --allow-root
+wp core install --url="$primary_host" --quiet --title="${VVV_SITE_NAME}" --admin_name="admin" --admin_email="clayton@wearefx.co.uk" --admin_password="password" --quiet --allow-root
 echo "installed core"
 
 
