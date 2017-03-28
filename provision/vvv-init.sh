@@ -60,26 +60,11 @@ echo "made config"
 
 
 # get primery host
-primary_host=`cat ${VVV_CONFIG} | shyaml get-value sites.${SITE_ESCAPED}.hosts.0 2> /dev/null`
+echo 'before finding primary host'
+primary_host=`cat ${VVV_CONFIG} | shyaml get-value sites.\`${SITE_ESCAPED}\`.hosts.0 2> /dev/null`
+echo 'after finding primary host'
 $primary_host = ${primary_host:-$1}
-echo "================================================================="
-echo ""
-echo ""
-echo ""
-echo ""
-echo ""
-echo ""
-echo 'the primary host is:'
-echo $primary_host
-echo ""
-echo ""
-echo ""
-echo ""
-echo ""
-echo ""
-echo ""
-echo ""
-echo "================================================================="
+echo 'after setting primary host'
 
 
 # wp core install --url="${VVV_SITE_NAME}.dev" --quiet --title="$sitename" --admin_name="$wpuser" --admin_email="$wpemail" --admin_password="$password" --quiet --allow-root
@@ -109,5 +94,3 @@ echo "Username: $wpuser"
 echo "Password: $password"
 echo ""
 echo "================================================================="
-
-fi
