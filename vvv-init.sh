@@ -19,6 +19,14 @@ if ! $(wp core is-installed --allow-root); then
   wp core config --dbname="${VVV_SITE_NAME}" --dbuser=wp --dbpass=wp --quiet --allow-root
   wp core multisite-install --url="${VVV_SITE_NAME}.local" --quiet --title="${VVV_SITE_NAME}" --admin_name=admin --admin_email="clayton@wearefx.co.uk" --admin_password="password" --allow-root
 
+
+
+  wp theme install https://bitbucket.org/clayton93/fx-framework-2.0/get/HEAD.zip
+
+  cd $(wp theme path)
+  mv clayton93-fx-framework* ${VVV_SITE_NAME}
+  wp theme activate ${VVV_SITE_NAME}
+
 else
   wp core update --allow-root
 fi
