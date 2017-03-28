@@ -42,11 +42,11 @@ read -e wpemail
 
 
 
-wp core download --path="${VVV_PATH_TO_SITE}" --quiet --allow-root
+wp core download --path="${VVV_PATH_TO_SITE}"
 echo "downloaded core"
 
 # wp core config --dbname="${VVV_SITE_NAME}" --dbuser=wp --dbpass=wp --dbprefix="$dbprefix" --quiet --allow-root --extra-php <<PHP
-wp core config --dbname="${VVV_SITE_NAME}" --dbuser=wp --dbpass=wp --dbprefix=wp --quiet --allow-root --extra-php <<PHP
+wp core config --dbname="${VVV_SITE_NAME}" --dbuser=wp --dbpass=wp --dbprefix=wp --extra-php <<PHP
 define( 'WP_DEBUG', true );
 define( 'DISALLOW_FILE_EDIT', true );
 PHP
@@ -68,22 +68,22 @@ echo 'after setting primary host'
 
 
 # wp core install --url="${VVV_SITE_NAME}.dev" --quiet --title="$sitename" --admin_name="$wpuser" --admin_email="$wpemail" --admin_password="$password" --quiet --allow-root
-wp core install --url="$primary_host" --quiet --title="${VVV_SITE_NAME}" --admin_name="admin" --admin_email="clayton@wearefx.co.uk" --admin_password="password" --quiet --allow-root
+wp core install --url="$primary_host" --quiet --title="${VVV_SITE_NAME}" --admin_name="admin" --admin_email="clayton@wearefx.co.uk" --admin_password="password"
 echo "installed core"
 
 
 
 
-wp theme install https://bitbucket.org/clayton93/fx-framework-2.0/get/HEAD.zip --quiet --allow-root
+wp theme install https://bitbucket.org/clayton93/fx-framework-2.0/get/HEAD.zip
 echo "got theme"
 
 cd $(wp theme path)
 echo "at theme path"
 
-mv clayton93-fx-framework* ${VVV_SITE_NAME}
+mv "clayton93-fx-framework"* ${VVV_SITE_NAME}
 echo "renamed theme folder"
 
-wp theme activate ${VVV_SITE_NAME} --quiet --allow-root
+wp theme activate ${VVV_SITE_NAME}
 echo "activated theme"
 
 
