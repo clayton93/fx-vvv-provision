@@ -19,23 +19,70 @@ touch ${VVV_PATH_TO_SITE}/log/access.log
 echo 'going to path to site'
 cd ${VVV_PATH_TO_SITE}
 echo 'at path to site. now checking if wp installed'
-if ! $(wp core is-installed --allow-root); then
-  wp core download --path="${VVV_PATH_TO_SITE}" --quiet --allow-root
-  echo "installed core"
-  wp core config --dbname="${VVV_SITE_NAME}" --dbuser=wp --dbpass=wp --quiet --allow-roor
-  echo "made config"
-
-  wp theme install https://bitbucket.org/clayton93/fx-framework-2.0/get/HEAD.zip --quiet --allow-root
-  echo "got theme"
-
-  cd $(wp theme path)
-  echo "at theme path"
-  mv clayton93-fx-framework* ${VVV_SITE_NAME}
-  echo "renamed theme folder"
-  wp theme activate ${VVV_SITE_NAME} --quiet --allow-root
-  echo "activated theme"
 
 
-else
-  wp core update --quiet --allow-root
+echo "================================================================="
+echo "Enter WordPress Installation Details!!"
+echo "================================================================="
+# accept user input for the db prefix
+echo "Database Prefix (e.g. 'wp_'): "
+read -e dbprefix
+
+# accept the name of our website
+echo "Site Name: "
+read -e sitename
+
+# accept the wp username
+echo "WP Admin username: "
+read -e wpuser
+
+# accept the wp email
+echo "WP Admin email: "
+read -e wpemail
+
+
+
+wp core download --path="${VVV_PATH_TO_SITE}" --quiet --allow-root
+echo "downloaded core"
+
+wp core config --dbname="${VVV_SITE_NAME}" --dbuser=wp --dbpass=wp --dbprefix="$dbprefix" --quiet --allow-root --extra-php <<PHP
+define( 'WP_DEBUG', true );
+define( 'DISALLOW_FILE_EDIT', true );
+PHP
+echo "made config"
+
+
+# generate password
+password=$(date | md5 -r)
+# copy password to clipboard
+echo $password | pbcopy
+
+
+wp core install --url="${VVV_SITE_NAME}.dev" --quiet --title="$sitename" --admin_name="$wpuser" --admin_email="$wpemail" --admin_password="$password" --quiet --allow-root
+echo "installed core"
+
+
+
+
+wp theme install https://bitbucket.org/clayton93/fx-framework-2.0/get/HEAD.zip --quiet --allow-root
+echo "got theme"
+
+cd $(wp theme path)
+echo "at theme path"
+
+mv clayton93-fx-framework* ${VVV_SITE_NAME}
+echo "renamed theme folder"
+
+wp theme activate ${VVV_SITE_NAME} --quiet --allow-root
+echo "activated theme"
+
+
+echo "================================================================="
+echo "Installation is complete. Your username/password is listed below."
+echo ""
+echo "Username: $wpuser"
+echo "Password: $password"
+echo ""
+echo "================================================================="
+
 fi
