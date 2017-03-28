@@ -46,7 +46,7 @@ wp core download --path="${VVV_PATH_TO_SITE}" --quiet --allow-root
 echo "downloaded core"
 
 # wp core config --dbname="${VVV_SITE_NAME}" --dbuser=wp --dbpass=wp --dbprefix="$dbprefix" --quiet --allow-root --extra-php <<PHP
-wp core config --dbname="${VVV_SITE_NAME}" --dbuser=wp --dbpass=wp --dbprefix=wp --quiet --allow-root --extra-php <<PHP
+wp core config --dbname="${VVV_SITE_NAME}" --dbuser=wp --dbpass=wp --dbprefix="wp_" --quiet --allow-root --extra-php <<PHP
 define( 'WP_DEBUG', true );
 define( 'DISALLOW_FILE_EDIT', true );
 PHP
