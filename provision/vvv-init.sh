@@ -81,6 +81,7 @@ wp theme install https://bitbucket.org/clayton93/fx-framework-2.0/get/HEAD.zip -
 echo "got theme"
 
 cd $(wp theme path)
+mkdir iamhere
 echo "at theme path"
 
 mv "clayton93-fx-framework"* ${VVV_SITE_NAME}
